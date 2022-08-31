@@ -4,6 +4,7 @@ from helpers import Task, TimerEntry
 from trackers import AbstractTrackerStrategy
 from inputs import AbstractInputFormatStrategy
 from config import Config
+from timer import AbstractTimerStrategy
 
 
 class PoskContext:
@@ -12,10 +13,12 @@ class PoskContext:
         config: Config,
         input_format_strategy: AbstractInputFormatStrategy,
         tracker_strategy: AbstractTrackerStrategy,
+        timer_strategy: AbstractTimerStrategy,
     ):
         self.config = config
         self.input_format_strategy = input_format_strategy
         self.tracker_strategy = tracker_strategy
+        self.timer_strategy = timer_strategy
 
     def _open_tasks_input_with_editor(self):
         folder_path = self.config.tmp_files_folder
@@ -51,7 +54,8 @@ class PoskContext:
         return entries
 
     def run_timer(self, entries: list[TimerEntry]):
-        pass
+        for entry in entries:
+            self.timer_strategy.run(entry)
 
     def _notify_user(self):
         pass
