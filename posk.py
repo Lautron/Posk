@@ -17,9 +17,6 @@ class PoskContext:
         self.input_format_strategy = input_format_strategy
         self.tracker_strategy = tracker_strategy
 
-    def _get_tasks_template(self):
-        return self.input_format_strategy.get_input_template()
-
     def _open_tasks_input_with_editor(self):
         folder_path = Config.tmp_files_folder
         tmp_filename = "tmp_tasks"
