@@ -1,21 +1,20 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 from helpers import Task
 from trackers import AbstractTrackerStrategy
 from inputs import AbstractInputFormatStrategy
+from config import Config
 
 
 class PoskContext:
-    def __init__(self, config: Config):
+    def __init__(
+        self,
+        config: Config,
+        input_format_strategy: AbstractInputFormatStrategy,
+        tracker_strategy: AbstractTrackerStrategy,
+    ):
         self.config = config
-        self.input_format_strategy: Optional[AbstractInputFormatStrategy] = None
-        self.tracker_strategy: Optional[AbstractTrackerStrategy] = None
-
-    def set_tracker_strategy(self, strategy: AbstractTrackerStrategy):
-        self.tracker_strategy = strategy
-
-    def set_input_format_strategy(self, strategy: AbstractInputFormatStrategy):
-        self.input_format_strategy = strategy
+        self.input_format_strategy = input_format_strategy
+        self.tracker_strategy = tracker_strategy
 
     def _get_tasks_template(self):
         return self.input_format_strategy.get_input_template()
