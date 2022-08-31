@@ -1,6 +1,6 @@
 import subprocess
 from abc import ABC, abstractmethod
-from helpers import Task
+from helpers import Task, TimerEntry
 from trackers import AbstractTrackerStrategy
 from inputs import AbstractInputFormatStrategy
 from config import Config
@@ -18,7 +18,7 @@ class PoskContext:
         self.tracker_strategy = tracker_strategy
 
     def _open_tasks_input_with_editor(self):
-        folder_path = Config.tmp_files_folder
+        folder_path = self.config.tmp_files_folder
         tmp_filename = "tmp_tasks"
         command = f"$EDITOR {folder_path}{tmp_filename}"
         self.input_format_strategy.create_file(folder_path, tmp_filename)
@@ -30,7 +30,27 @@ class PoskContext:
     def _parse_tasks(self, file) -> list[Task]:
         return self.input_format_strategy.parse_tasks(file)
 
-    def run_timer(self):
+    def get_timer_entries(self, tasks: list[Task]) -> list[TimerEntry]:
+        entries = []
+        for task in tasks:
+            for task_num in range(1, task.work_sets + 1):
+                work_entry = TimerEntry(
+                    "work", task.description, self.config.work_set_duration
+                )
+                entries.append(work_entry)
+
+                should_take_break = (
+                    task_num % task.take_break_after_how_many_work_sets == 0
+                )
+                if should_take_break:
+                    break_entry = TimerEntry(
+                        "break", "Break", self.config.break_duration
+                    )
+                    entries.append(break_entry)
+
+        return entries
+
+    def run_timer(self, entries: list[TimerEntry]):
         pass
 
     def _notify_user(self):
