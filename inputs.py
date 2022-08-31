@@ -6,25 +6,8 @@ from helpers import Task
 class AbstractInputFormatStrategy(ABC):
     template = ""
 
-    def __init__(self):
-        pass
-
     @abstractmethod
-    def set_input_template(self, template):
-        """Set default input config template
-
-        :returns: TODO
-
-        """
-        pass
-
-    @abstractmethod
-    def get_input_template(self):
-        """Get default input config template
-
-        :returns: TODO
-
-        """
+    def create_file(self, path, filename):
         pass
 
     @abstractmethod
@@ -43,19 +26,9 @@ class CSVInputFormat(AbstractInputFormatStrategy):
         "description, project, work_sets, take_break_after_how_many_work_sets"
     ) + "\n"
 
-    def __init__(self):
-        pass
-
-    def set_input_template(self, template):
-        self.template = template
-
-    def get_input_template(self):
-        """Get default input config template
-
-        :returns: TODO
-        """
-
-        return self.template
+    def create_file(self, path, filename):
+        with open(f"{path}{filename}", "w") as file_obj:
+            file_obj.write(self.template)
 
     def parse_tasks(self, file) -> list[Task]:
         """Stop time entry on time tracking service
