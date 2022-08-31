@@ -4,6 +4,8 @@ from abc import ABC, abstractmethod
 class Config:
     notify_command: str
     tmp_files_folder: str
+    work_set_duration: str
+    break_duration: str
 
 
 class ConfigTemplate:
