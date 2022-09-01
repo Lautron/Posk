@@ -11,6 +11,7 @@ class MockConfig(Config):
     tmp_files_folder = "./tmp/"
     work_set_duration = "25m"
     break_duration = "5m"
+    notify_command = "dunstify '$1' '$2'"
 
 
 def get_mock_posk():
