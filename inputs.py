@@ -1,4 +1,4 @@
-import csv
+import csv, os
 from abc import ABC, abstractmethod
 from helpers import Task
 
@@ -27,6 +27,7 @@ class CSVInputFormat(AbstractInputFormatStrategy):
     ) + "\n"
 
     def create_file(self, path, filename):
+        os.makedirs(path, exist_ok=True)
         with open(f"{path}{filename}", "w") as file_obj:
             file_obj.write(self.template)
 
