@@ -1,4 +1,7 @@
 from inputs import CSVInputFormat
+from timers import TermdownStrategy
+from posk import PoskContext
+
 from config import Config
 from helpers import Task, TimerEntry
 import io
@@ -8,6 +11,10 @@ class MockConfig(Config):
     tmp_files_folder = "./tmp/"
     work_set_duration = "25m"
     break_duration = "5m"
+
+
+def get_mock_posk():
+    return PoskContext(MockConfig(), CSVInputFormat(), None, TermdownStrategy())
 
 
 task_info = [
