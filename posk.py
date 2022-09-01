@@ -25,7 +25,7 @@ class PoskContext:
         tmp_filename = "tmp_tasks"
         command = f"$EDITOR {folder_path}{tmp_filename}"
         self.input_format_strategy.create_file(folder_path, tmp_filename)
-        subprocess.Popen(command, shell=True)
+        subprocess.call(command, shell=True)
 
     def _store_tasks(self):
         pass
