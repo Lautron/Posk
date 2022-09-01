@@ -56,13 +56,19 @@ class PoskContext:
     def run_timer(self, entries: list[TimerEntry]):
         for entry in entries:
             try:
+                self._notify_user(entry)
                 self.timer_strategy.run(entry)
             except KeyboardInterrupt:
                 print("Skipping timer...")
                 continue
 
-    def _notify_user(self):
-        pass
+    @staticmethod
+    def format_notify_command(command, entry):
+        return command.replace("$1", entry.description).replace("$2", entry.duration)
+
+    def _notify_user(self, entry):
+        command = self.format_notify_command(self.config.notify_command, entry)
+        subprocess.run(command, shell=True)
 
     def _add_time_entry(self, task: Task):
         return self.tracker_strategy.add_time_entry(task)
