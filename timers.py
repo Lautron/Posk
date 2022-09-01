@@ -17,8 +17,9 @@ class AbstractTimerStrategy(ABC):
 
 class TermdownStrategy(AbstractTimerStrategy):
     def _get_args_from_entry(self, entry: TimerEntry):
-        return f"--title {entry.description} {entry.duration}"
+        return ["--title", f"'{entry.description}'", f"{entry.duration}"]
 
     def run(self, entry: TimerEntry) -> None:
         args = self._get_args_from_entry(entry)
-        subprocess.Popen("termdown" + args)
+        command = ["termdown"] + args
+        subprocess.run(command)
