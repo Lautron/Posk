@@ -24,15 +24,15 @@ task_info = [
 ]
 
 timer_entries = [
-    TimerEntry("work", "Work on Posk", "25m"),
-    TimerEntry("work", "Work on Posk", "25m"),
+    TimerEntry("code", "Work on Posk", "25m"),
+    TimerEntry("code", "Work on Posk", "25m"),
     TimerEntry("break", "Break", "5m"),
-    TimerEntry("work", "Work on Posk", "25m"),
-    TimerEntry("work", "Work on Posk", "25m"),
+    TimerEntry("code", "Work on Posk", "25m"),
+    TimerEntry("code", "Work on Posk", "25m"),
     TimerEntry("break", "Break", "5m"),
-    TimerEntry("work", "Plan project on Jira", "25m"),
+    TimerEntry("planning", "Plan project on Jira", "25m"),
     TimerEntry("break", "Break", "5m"),
-    TimerEntry("work", "Plan project on Jira", "25m"),
+    TimerEntry("planning", "Plan project on Jira", "25m"),
     TimerEntry("break", "Break", "5m"),
 ]
 

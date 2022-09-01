@@ -38,7 +38,7 @@ class PoskContext:
         for task in tasks:
             for task_num in range(1, task.work_sets + 1):
                 work_entry = TimerEntry(
-                    "work", task.description, self.config.work_set_duration
+                    task.project, task.description, self.config.work_set_duration
                 )
                 entries.append(work_entry)
 
@@ -70,8 +70,8 @@ class PoskContext:
         command = self.format_notify_command(self.config.notify_command, entry)
         subprocess.run(command, shell=True)
 
-    def _add_time_entry(self, task: Task):
-        return self.tracker_strategy.add_time_entry(task)
+    def _add_time_entry(self, entry: TimerEntry):
+        return self.tracker_strategy.start_time_entry(entry)
 
     def _stop_time_entry(self):
         return self.tracker_strategy.stop_time_entry()

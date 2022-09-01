@@ -15,4 +15,4 @@ class Task:
         )
 
 
-TimerEntry = namedtuple("TimerEntry", ["type", "description", "duration"])
+TimerEntry = namedtuple("TimerEntry", ["project", "description", "duration"])
