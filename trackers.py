@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from helpers import Task
+from helpers import TimerEntry
+import subprocess
 
 
 class AbstractTrackerStrategy(ABC):
@@ -7,7 +8,7 @@ class AbstractTrackerStrategy(ABC):
         pass
 
     @abstractmethod
-    def add_time_entry(self, task: Task):
+    def start_time_entry(self, entry: TimerEntry):
         """Add time entry on time tracking service
 
         :task: TODO
@@ -31,14 +32,17 @@ class TogglTrackerStrategy(AbstractTrackerStrategy):
     def __init__(self):
         pass
 
-    def add_time_entry(self, task):
+    def start_time_entry(self, entry: TimerEntry):
         """Add time entry on time tracking service
 
         :task: TODO
         :returns: TODO
 
         """
-        pass
+        if entry.project == "break":
+            return
+        command = f"toggl start -o '{entry.project}' '{entry.description}'"
+        subprocess.run(command, shell=True)
 
     def stop_time_entry(self):
         """Stop time entry on time tracking service
@@ -47,4 +51,4 @@ class TogglTrackerStrategy(AbstractTrackerStrategy):
         :returns: TODO
 
         """
-        pass
+        subprocess.run("toggl stop", shell=True)

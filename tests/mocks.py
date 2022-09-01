@@ -1,6 +1,7 @@
 from inputs import CSVInputFormat
 from timers import TermdownStrategy
 from posk import PoskContext
+from trackers import TogglTrackerStrategy
 
 from config import Config
 from helpers import Task, TimerEntry
@@ -15,7 +16,9 @@ class MockConfig(Config):
 
 
 def get_mock_posk():
-    return PoskContext(MockConfig(), CSVInputFormat(), None, TermdownStrategy())
+    return PoskContext(
+        MockConfig(), CSVInputFormat(), TogglTrackerStrategy(), TermdownStrategy()
+    )
 
 
 task_info = [

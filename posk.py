@@ -57,10 +57,12 @@ class PoskContext:
         for entry in entries:
             try:
                 self._notify_user(entry)
+                self._add_time_entry(entry)
                 self.timer_strategy.run(entry)
             except KeyboardInterrupt:
                 print("Skipping timer...")
-                continue
+
+            self._stop_time_entry()
 
     @staticmethod
     def format_notify_command(command, entry):
