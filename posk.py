@@ -4,7 +4,7 @@ from helpers import Task, TimerEntry
 from trackers import AbstractTrackerStrategy
 from inputs import AbstractInputFormatStrategy
 from config import Config
-from timer import AbstractTimerStrategy
+from timers import AbstractTimerStrategy
 
 
 class PoskContext:
@@ -55,7 +55,11 @@ class PoskContext:
 
     def run_timer(self, entries: list[TimerEntry]):
         for entry in entries:
-            self.timer_strategy.run(entry)
+            try:
+                self.timer_strategy.run(entry)
+            except KeyboardInterrupt:
+                print("Skipping timer...")
+                continue
 
     def _notify_user(self):
         pass
