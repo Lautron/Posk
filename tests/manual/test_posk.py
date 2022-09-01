@@ -15,7 +15,7 @@ def test_opening_with_editor():
     assert_input()
 
 
-@pytest.mark.skip(reason="Takes too long")
+@pytest.mark.timer
 def test_termdown():
     posk = mocks.get_mock_posk()
     entries = mocks.get_mock_timer_entries()
