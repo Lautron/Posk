@@ -31,14 +31,15 @@ class CSVInputFormat(AbstractInputFormatStrategy):
         with open(f"{path}{filename}", "w") as file_obj:
             file_obj.write(self.template)
 
-    def parse_tasks(self, file) -> list[Task]:
+    def parse_tasks(self, filename) -> list[Task]:
         """Stop time entry on time tracking service
 
         :task: TODO
         :returns: TODO
         """
-        reader = csv.reader(file, skipinitialspace=True)
-        reader = iter(reader)  # Skip header row
-        next(reader)
-        tasks = [Task(*row) for row in reader if row]
-        return tasks
+        with open(filename, "r") as file:
+            reader = csv.reader(file, skipinitialspace=True)
+            reader = iter(reader)  # Skip header row
+            next(reader)
+            tasks = [Task(*row) for row in reader if row]
+            return tasks
