@@ -17,7 +17,7 @@ class AbstractTimerStrategy(ABC):
 
 class TermdownStrategy(AbstractTimerStrategy):
     def _get_args_from_entry(self, entry: TimerEntry):
-        return f"--title '{entry.description}' {entry.duration}"
+        return f"--title '{entry.description}' {entry.duration}m"
 
     def run(self, entry: TimerEntry) -> None:
         args = self._get_args_from_entry(entry)
