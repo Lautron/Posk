@@ -53,8 +53,10 @@ class PoskContext:
 
     def get_timer_entries(self, tasks: list[Task]) -> list[TimerEntry]:
         entries = []
+        workset_num = 0
         for task in tasks:
             for task_num in range(1, task.work_sets + 1):
+                workset_num += 1
                 work_entry = TimerEntry(
                     task.project,
                     f"{task.description} #{task_num}",
@@ -62,8 +64,8 @@ class PoskContext:
                 )
                 entries.append(work_entry)
 
-                if self._should_take_break(task, task_num):
-                    break_duration = self._get_break_duration(task, task_num)
+                if self._should_take_break(task, workset_num):
+                    break_duration = self._get_break_duration(task, workset_num)
                     break_entry = TimerEntry("break", "Break", break_duration)
                     entries.append(break_entry)
 
