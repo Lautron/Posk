@@ -36,6 +36,21 @@ class PoskContext:
     def _parse_tasks(self, filepath) -> list[Task]:
         return self.input_format_strategy.parse_tasks(filepath)
 
+    def _get_break_duration(self, task, task_num):
+        break_duration = (
+            self.config.break_duration * task.take_break_after_how_many_work_sets
+        )
+        should_be_longer = (
+            task_num % self.config.take_longer_break_after_how_many_work_sets == 0
+        )
+        if should_be_longer:
+            break_duration *= self.config.long_break_multiplier
+
+        return break_duration
+
+    def _should_take_break(self, task, task_num):
+        return task_num % task.take_break_after_how_many_work_sets == 0
+
     def get_timer_entries(self, tasks: list[Task]) -> list[TimerEntry]:
         entries = []
         for task in tasks:
@@ -47,22 +62,8 @@ class PoskContext:
                 )
                 entries.append(work_entry)
 
-                should_take_break = (
-                    task_num % task.take_break_after_how_many_work_sets == 0
-                )
-                if should_take_break:
-                    should_be_longer = (
-                        task_num
-                        % self.config.take_longer_break_after_how_many_work_sets
-                        == 0
-                    )
-                    break_duration = (
-                        self.config.break_duration
-                        * task.take_break_after_how_many_work_sets
-                    )
-                    if should_be_longer:
-                        break_duration *= self.config.long_break_multiplier
-
+                if self._should_take_break(task, task_num):
+                    break_duration = self._get_break_duration(task, task_num)
                     break_entry = TimerEntry("break", "Break", break_duration)
                     entries.append(break_entry)
 
